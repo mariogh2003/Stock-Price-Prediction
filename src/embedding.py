@@ -9,9 +9,8 @@ class CustomSentenceTransformer(nn.Module):
         self.linear = nn.Linear(self.base_model.get_sentence_embedding_dimension(), output_dim)
 
     def forward(self, input_texts):
-        # Encode text to embeddings
+        '''Encode text to embeddings and transform them to the desired size'''
         embeddings = self.base_model.encode(input_texts, convert_to_tensor=True)
-        # Transform embeddings to the desired size
         return self.linear(embeddings)
 
 def load_data(file_path):
@@ -23,7 +22,7 @@ def decode_strings(df):
     for col in df.columns:
         if col not in ['Date', 'Label']:
             df[col] = df[col].apply(lambda x: x.decode("utf-8") if isinstance(x, bytes) else x.strip('b"').strip("'"))
-            df[col] = df[col].astype(str)  # Ensure all values are strings
+            df[col] = df[col].astype(str)
     return df
 
 def preprocess(text):
@@ -42,7 +41,7 @@ def create_embeddings(df, model):
     """Create sentence embeddings for the text columns."""
     for col in df.columns:
         if col not in ['Date', 'Label']:
-            df[col + "_embedding"] = df[col].apply(lambda x: model([x])[0].tolist())  # Process list of texts
+            df[col + "_embedding"] = df[col].apply(lambda x: model([x])[0].tolist())
     return df
 
 def create_embedding_dataframe(df):
@@ -56,10 +55,10 @@ def save_embeddings(embedding_df, output_path):
     embedding_df.to_csv(output_path, index=False)
 
 def embedding_main(data_file_path, output_file_path):
+    '''Initialize the custom model with 32-dimensional embeddings'''
     df = load_data(data_file_path)
     df = decode_strings(df)
     
-    # Initialize the custom model with 32-dimensional embeddings
     model = CustomSentenceTransformer('paraphrase-MiniLM-L6-v2', output_dim=32)
 
     df = create_embeddings(df, model)
