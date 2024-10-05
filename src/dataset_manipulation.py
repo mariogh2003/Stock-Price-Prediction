@@ -3,7 +3,7 @@ from ast import literal_eval
 from embedding import embedding_main
 import os
 
-# Define file paths
+'''Define file paths'''
 full_dataset = "C:/Users/mario/Downloads/Dataset.csv"
 train_file_path = "C:/Users/mario/Downloads/training_dataset.csv"
 test_file_path = "C:/Users/mario/Downloads/testing_dataset.csv"
@@ -12,7 +12,7 @@ embedding_csv = "C:/Users/mario/Downloads/Word_embedding.csv"
 merged_csv = "C:/Users/mario/Downloads/Merged_dataset.csv"
 folder_path = "C:/Users/mario/Downloads/archive/Stocks"
 
-# Call the main function of the embedding script to generate embeddings
+'''Call the main function of the embedding script to generate embeddings'''
 embedding_main(combined_news_path, embedding_csv)
 
 def txt_to_csv(txt_file_path, csv_file_path, delimiter=' '):
@@ -96,17 +96,14 @@ def final_csv():
     print(f"\nTest data has been saved to '{test_file_path}'.")
 
 def merge_datasets(embedding_file_path, data_df, output_file_path):
-    # Load the embedding and original datasets
+    '''Combine two datasets based on their shared dates found in the Date column'''
     embeddings_df = pd.read_csv(embedding_file_path)
     
-    # Ensure 'Date' columns are in the same format for merging
     embeddings_df['Date'] = pd.to_datetime(embeddings_df['Date'])
     data_df['Date'] = pd.to_datetime(data_df['Date'])
     
-    # Merge the datasets on the 'Date' column
     merged_df = pd.merge(data_df, embeddings_df, on='Date', how='left')
     
-    # Save the merged DataFrame to a new CSV file
     merged_df.to_csv(output_file_path, index=False)
     print(f"\nMerged data has been saved to '{output_file_path}'.")
 
@@ -124,7 +121,7 @@ def convert_list_strings_to_columns(df, column_name):
 def dummy_date(df):
     '''Extract day and merge embeddings'''
     merge_datasets(embedding_csv, df, merged_csv)
-    df = pd.read_csv(merged_csv)  # Reload merged data with embeddings
+    df = pd.read_csv(merged_csv)
     df["day"] = df["Date"].apply(lambda x: pd.to_datetime(x).day)
     return df
 
