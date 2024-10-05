@@ -52,7 +52,7 @@ selected_df.to_csv(winnings_csv, index=False)
 
 plt.figure(figsize=(12,6))
 
-#for 100$ every day
+'''for 100$ every day'''
 plt.plot(profit_list, label='Profits when the model says to go long')
 plt.plot(profit_list_1, label='Profits when the model says to short')
 plt.plot(profit_list_2, label='Missing profits due to false negatives')
