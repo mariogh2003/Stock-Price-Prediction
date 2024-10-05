@@ -85,13 +85,13 @@
 **6. Plots**
 
 <p align="center">
-    <img src="confusion_matrix_classification.png" alt="alt text" width="700"/>
+    <img src="img/confusion_matrix_classification.png" alt="alt text" width="700"/>
 </p>
 
 > **Figure 1:** Confusion matrix of the classification
 
 <p align="center">
-    <img src="Model Profits Every Day.png" alt="alt text" width="700"/>
+    <img src="img/Model Profits Every Day.png" alt="alt text" width="700"/>
 </p>
 
 > **Figure 2:** Investing 100$ every day profits visualization
@@ -101,13 +101,13 @@
 > We experimented with several machine learning models, including linear regression and gradient boosting, but they didn't yield optimal results. Despite their potential, these models fell short in accurately capturing the patterns needed for effective predictions.
 
 <p align="center">
-    <img src="scatter_plot_relative.png" alt="alt text" width="700"/>
+    <img src="img/scatter_plot_relative.png" alt="alt text" width="700"/>
 </p>
 
 > **Figure 1:** Gradient boosting using relative values (percentage change)
 
 <p align="center">
-    <img src="neural_network.png" alt="alt text" width="700"/>
+    <img src="img/neural_network.png" alt="alt text" width="700"/>
 </p>
 
 > **Figure 2:** Neural network linear regression 
