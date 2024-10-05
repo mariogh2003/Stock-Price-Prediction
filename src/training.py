@@ -9,7 +9,7 @@ from dataset_manipulation import pre_processing, final_csv
 import seaborn as sns
 import numpy as np
 
-# Define file paths
+'''Define file paths'''
 train_file_path = "C:/Users/mario/Downloads/training_dataset.csv"
 test_file_path = "C:/Users/mario/Downloads/testing_dataset.csv"
 combined_news_path = "C:/Users/mario/Downloads/Combined_News_DJIA.csv"
@@ -17,21 +17,25 @@ embedding_csv = "C:/Users/mario/Downloads/Word_embedding.csv"
 merged_csv = "C:/Users/mario/Downloads/Merged_dataset.csv"
 
 def load_data(train_file_path, test_file_path):
+    """Load training and testing datasets from CSV files."""
     train = pd.read_csv(train_file_path)
     test = pd.read_csv(test_file_path)
     return train, test
 
 def preprocess_data(train, test):
+    """Concatenate training and testing datasets and preprocess the combined data."""
     data = pd.concat([train, test])
     data = pre_processing(data)
     return data
 
 def split_data(data, train_num):
+    """Split the combined dataset back into training and testing sets."""
     train = data[:train_num]
     test = data[train_num:]
     return train, test
 
 def prepare_features_and_labels(train, test):
+    """Separate features and labels for training and testing datasets."""
     y_train = train["pct_change"].values
     X_train = train.drop("pct_change", axis=1).values.astype(float)
     y_test = test["pct_change"].values
@@ -39,6 +43,7 @@ def prepare_features_and_labels(train, test):
     return X_train, y_train, X_test, y_test
 
 def impute_and_normalize(X_train, X_test):
+    """Impute missing values and normalize the feature data."""
     imputer = SimpleImputer(strategy='mean')
     X_train = imputer.fit_transform(X_train)
     X_test = imputer.transform(X_test)
@@ -49,9 +54,11 @@ def impute_and_normalize(X_train, X_test):
     return X_train, X_test
 
 def classify_pct_change(y, bins, labels):
+    """Classify percentage changes into discrete categories using binning."""
     return pd.cut(y, bins=bins, labels=labels).fillna(0)
 
 def train_model(X_train, y_train):
+    """Train an MLPClassifier model using grid search for hyperparameter tuning."""
     mlp = MLPClassifier(max_iter=5000)
     param_grid = {
         'hidden_layer_sizes': [(16)],
@@ -70,6 +77,7 @@ def train_model(X_train, y_train):
     return mlp
 
 def evaluate_model(mlp, X_train, y_train_classified, X_test, y_test_classified, labels):
+    """Evaluate the trained model's performance and display results."""
     train_predictions = mlp.predict(X_train)
     test_predictions = mlp.predict(X_test)
 
@@ -95,6 +103,7 @@ def evaluate_model(mlp, X_train, y_train_classified, X_test, y_test_classified, 
     return test_predictions
 
 def training_main():
+    """Main function to execute the entire training and evaluation process."""
     final_csv()
     train, test = load_data(train_file_path, test_file_path)
     train_num = train.shape[0]
